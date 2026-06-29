@@ -1,18 +1,20 @@
 # Loan Default Prediction
 
-## Overview
-
-This project predicts whether a loan applicant is likely to default based on applicant and loan-related information using supervised machine learning. Multiple classification algorithms were trained and evaluated, followed by hyperparameter tuning to identify the best-performing model. The final model was deployed as an interactive Streamlit web application.
+A machine learning project for predicting loan default using multiple classification models and a Streamlit web application. The project includes data preprocessing, exploratory data analysis (EDA), model comparison, hyperparameter tuning, and deployment of the best-performing model.
 
 ---
 
-## Objectives
+## Live Demo
 
-- Perform data preprocessing and exploratory data analysis (EDA).
-- Train and compare multiple machine learning models.
-- Optimize models using GridSearchCV.
-- Evaluate models using multiple performance metrics.
-- Deploy the best-performing model using Streamlit.
+https://loan-default-prediction-fcbx.onrender.com
+
+---
+
+## Project Overview
+
+Loan default prediction helps financial institutions identify applicants who are more likely to default before approving loans. This project builds and compares multiple machine learning models to classify loan applicants based on their likelihood of default.
+
+The best-performing model is deployed as an interactive Streamlit web application for real-time predictions.
 
 ---
 
@@ -25,21 +27,21 @@ This project predicts whether a loan applicant is likely to default based on app
 - Seaborn
 - Scikit-learn
 - Streamlit
-- Pickle
+- Joblib
 
 ---
 
-## Machine Learning Workflow
+## Project Workflow
 
 1. Data Loading
 2. Data Cleaning
 3. Exploratory Data Analysis (EDA)
-4. Feature Engineering
-5. Train-Test Split
-6. Model Training
-7. Hyperparameter Tuning
-8. Model Evaluation
-9. Model Comparison
+4. Missing Value Handling
+5. One-Hot Encoding of Categorical Features
+6. Train-Test Split
+7. Model Training
+8. Hyperparameter Tuning using GridSearchCV
+9. Model Evaluation
 10. Model Selection
 11. Streamlit Deployment
 
@@ -67,11 +69,11 @@ This project predicts whether a loan applicant is likely to default based on app
 
 ---
 
-## Model Selection
+## Selected Model
 
-The **Tuned Random Forest** achieved the best overall performance on the test dataset and was selected as the final model for deployment.
+The **Tuned Random Forest** achieved the best overall performance and was selected for deployment.
 
-**Final Model Performance**
+### Performance
 
 - Test Accuracy: **91.22%**
 - Test Precision: **82.68%**
@@ -79,41 +81,51 @@ The **Tuned Random Forest** achieved the best overall performance on the test da
 
 ---
 
-## Streamlit Deployment
+## Deployment
 
-The Streamlit application uses **only the final Tuned Random Forest model**.
+During model development, the dataset was divided into training and testing sets to evaluate the performance of different machine learning models.
 
-During model development in the notebook, the dataset was divided into training and testing sets to evaluate and compare the performance of different machine learning algorithms.
+For deployment, only the **Tuned Random Forest** model was used. The selected model was **retrained on the complete dataset** before deployment so it could learn from all available data.
 
-For deployment, the selected Tuned Random Forest model was **retrained on the complete dataset** before being saved as a `model.pkl` file. Training on the full dataset allows the deployed model to learn from all available observations, maximizing the information available for making predictions on new loan applications.
+The trained model and the metadata required for preprocessing were saved using **Joblib**.
+
+- `loan_model.pkl` – trained machine learning model
+- `metadata.pkl` – metadata required for preprocessing user input before prediction
 
 ---
 
-## Features
+## Streamlit Application
 
 The Streamlit application allows users to:
 
-- Enter applicant information through an interactive interface.
-- Predict whether a loan is likely to default.
-- Receive instant prediction results.
-- Use the trained machine learning model without requiring knowledge of the underlying implementation.
+- Enter applicant details through an interactive interface.
+- Predict whether a loan applicant is likely to default.
+- Receive prediction results instantly.
+- Perform predictions using the deployed Tuned Random Forest model.
 
 ---
 
 ## Project Structure
 
 ```
-Loan_Default_Prediction/
+Loan-Default-Prediction/
 │
 ├── app.py
-├── model.pkl
-├── loan_default_prediction.ipynb
-├── loan_data.csv
-├── requirements.txt
+├── train.py
 ├── README.md
-└── assets/
-    ├── streamlit_app.png
-    └── eda_visualizations.png
+├── requirements.txt
+│
+├── data/
+│   └── loan_dataset.csv
+│
+├── model/
+│   ├── loan_model.pkl
+│   └── metadata.pkl
+│
+├── notebook/
+│   └── Loan_Default_Prediction.ipynb
+│
+└── images/
 ```
 
 ---
@@ -123,13 +135,13 @@ Loan_Default_Prediction/
 Clone the repository
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/krskumarsatyam777-glitch/Loan-Default-Prediction.git
 ```
 
-Move to the project directory
+Move into the project directory
 
 ```bash
-cd Loan_Default_Prediction
+cd Loan-Default-Prediction
 ```
 
 Install the required libraries
@@ -138,7 +150,7 @@ Install the required libraries
 pip install -r requirements.txt
 ```
 
-Run the Streamlit application
+Run the application
 
 ```bash
 streamlit run app.py
@@ -148,9 +160,11 @@ streamlit run app.py
 
 ## Future Improvements
 
-- Incorporate Gradient Boosting models such as XGBoost or LightGBM.
-- Add probability scores for default risk.
-- Integrate SHAP for model interpretability.
-
+- Add probability score for loan default risk.
+- Implement XGBoost and LightGBM for comparison.
+- Add SHAP explainability for model predictions.
+- Improve UI with additional visualizations.
+- Support batch prediction using CSV upload.
 
 ---
+
