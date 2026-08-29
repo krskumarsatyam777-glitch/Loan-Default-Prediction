@@ -12,9 +12,33 @@ https://loan-default-prediction-fcbx.onrender.com
 
 ## Project Overview
 
-Loan default prediction helps financial institutions identify applicants who are more likely to default before approving loans. This project builds and compares multiple machine learning models to classify loan applicants based on their likelihood of default.
+Loan default prediction helps financial institutions identify applicants who are more likely to default before approving loans. This project uses the **HMEQ (Home Equity)** dataset, which contains historical loan performance records, to build and compare multiple machine learning models that classify applicants based on their likelihood of default.
 
 The best-performing model is deployed as an interactive Streamlit web application for real-time predictions.
+
+---
+
+## Dataset
+
+The dataset used is **HMEQ (Home Equity)**, containing **[X] rows** and **[X] columns**, with the target variable `BAD` (1 = client defaulted on loan, 0 = loan repaid). Since the raw column names are abbreviated, here's what each one means:
+
+| Column | Meaning |
+|--------|---------|
+| `BAD` | Target variable — 1 = defaulted, 0 = repaid |
+| `LOAN` | Amount of loan requested |
+| `MORTDUE` | Amount due on existing mortgage |
+| `VALUE` | Current value of the property |
+| `REASON` | Reason for the loan request — `DebtCon` (debt consolidation) or `HomeImp` (home improvement) |
+| `JOB` | Applicant's occupational category |
+| `YOJ` | Years at present job |
+| `DEROG` | Number of major derogatory credit reports |
+| `DELINQ` | Number of delinquent credit lines |
+| `CLAGE` | Age of the oldest credit line, in months |
+| `NINQ` | Number of recent credit inquiries |
+| `CLNO` | Number of existing credit lines |
+| `DEBTINC` | Debt-to-income ratio |
+
+The dataset also shows a class imbalance — only about **[X]%** of applicants defaulted (`BAD = 1`) — which was factored into model training and evaluation (see below).
 
 ---
 
@@ -44,6 +68,18 @@ The best-performing model is deployed as an interactive Streamlit web applicatio
 9. Model Evaluation
 10. Model Selection
 11. Streamlit Deployment
+
+---
+
+## Key EDA Insights
+
+Detailed univariate and bivariate analysis for all features, with explanations after each step, is available in the [Jupyter notebook](notebook/Loan_Default_Prediction.ipynb). All EDA plots are also available in [`images/eda/`](images/eda/).
+
+---
+
+## Handling Class Imbalance
+
+The dataset is imbalanced, with defaulters (`BAD = 1`) forming a minority of records. This was addressed by **[e.g. using `class_weight='balanced'` in model training / oversampling the minority class]**, since in a loan default use case, failing to catch an actual defaulter (false negative) is typically more costly than a false alarm — making **recall on the default class** an important metric alongside accuracy and precision.
 
 ---
 
@@ -79,6 +115,17 @@ The **Tuned Random Forest** achieved the best overall performance and was select
 - Test Precision: **82.68%**
 - Test Recall: **70.87%**
 
+### Feature Importance
+
+The most influential features (by Random Forest feature importance) were:
+
+1. `DEBTINC` — [importance score]
+2. `DELINQ` — [importance score]
+3. `CLAGE` — [importance score]
+4. [add remaining top features]
+
+[Optionally add a bar chart image here, e.g. `images/feature_importance.png`]
+
 ---
 
 ## Deployment
@@ -103,6 +150,8 @@ The Streamlit application allows users to:
 - Receive prediction results instantly.
 - Perform predictions using the deployed Tuned Random Forest model.
 
+App screenshots (high risk and low risk predictions) are available in [`images/ui_demo/`](images/ui_demo/).
+
 ---
 
 ## Project Structure
@@ -126,6 +175,8 @@ Loan-Default-Prediction/
 │   └── Loan_Default_Prediction.ipynb
 │
 └── images/
+    ├── eda/
+    └── ui_demo/
 ```
 
 ---
@@ -160,11 +211,10 @@ streamlit run app.py
 
 ## Future Improvements
 
-- Add probability score for loan default risk.
-- Implement XGBoost and LightGBM for comparison.
-- Add SHAP explainability for model predictions.
-- Improve UI with additional visualizations.
-- Support batch prediction using CSV upload.
+- **Add probability score for loan default risk.** Instead of a binary yes/no prediction, show the model's predicted probability of default (e.g. 72% risk) so users get a sense of confidence, not just a label.
+- **Implement XGBoost and LightGBM for comparison.** Test gradient boosting models alongside the current tree-based models to see if they improve recall on the minority (default) class.
+- **Add SHAP explainability for model predictions.** Show which features pushed a specific prediction toward "default" or "no default," so users and interviewers can see the model's reasoning, not just its output.
+- **Improve UI with additional visualizations.** Add charts (e.g. feature importance, risk distribution) to the Streamlit app so users can explore the data and model behavior, not just get a single prediction.
+- **Support batch prediction using CSV upload.** Let users upload a CSV of multiple applicants and get predictions for all of them at once, instead of entering details one at a time.
 
 ---
-
