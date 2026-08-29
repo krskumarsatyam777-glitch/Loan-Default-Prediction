@@ -20,7 +20,7 @@ The best-performing model is deployed as an interactive Streamlit web applicatio
 
 ## Dataset
 
-The dataset used is **HMEQ (Home Equity)**, containing **[X] rows** and **[X] columns**, with the target variable `BAD` (1 = client defaulted on loan, 0 = loan repaid). Since the raw column names are abbreviated, here's what each one means:
+The dataset used is **HMEQ (Home Equity)**, containing **5960 rows** and **13 columns**, with the target variable `BAD` (1 = client defaulted on loan, 0 = loan repaid). Since the raw column names are abbreviated, here's what each one means:
 
 | Column | Meaning |
 |--------|---------|
@@ -38,7 +38,7 @@ The dataset used is **HMEQ (Home Equity)**, containing **[X] rows** and **[X] co
 | `CLNO` | Number of existing credit lines |
 | `DEBTINC` | Debt-to-income ratio |
 
-The dataset also shows a class imbalance — only about **[X]%** of applicants defaulted (`BAD = 1`) — which was factored into model training and evaluation (see below).
+The dataset also shows a class imbalance — only about **20%** of applicants defaulted (`BAD = 1`) — which was factored into model training and evaluation (see below).
 
 ---
 
@@ -119,12 +119,11 @@ The **Tuned Random Forest** achieved the best overall performance and was select
 
 The most influential features (by Random Forest feature importance) were:
 
-1. `DEBTINC` — [importance score]
-2. `DELINQ` — [importance score]
-3. `CLAGE` — [importance score]
-4. [add remaining top features]
+1. `DEBTINC` — 
+2. `DELINQ` — 
+3. `CLAGE` — 
+<img width="1210" height="1072" alt="image" src="https://github.com/user-attachments/assets/8a907636-02c4-4ec3-a21d-d72f441fd926" />
 
-[Optionally add a bar chart image here, e.g. `images/feature_importance.png`]
 
 ---
 
